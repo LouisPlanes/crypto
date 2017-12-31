@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.io.StringReader;
 
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
@@ -84,47 +85,26 @@ public class Database{
         return document;
     }
     
+    public String xmlToString(Document xmlDoc)
+    {
+        SAXBuilder builder = new SAXBuilder();
+        XMLOutputter sortie = new XMLOutputter(Format.getCompactFormat());
+        String xmlString = sortie.outputString(xmlDoc);
+        
+        return xmlString;
+    }
+    
+    public Document stringToXml(String xmlString) throws JDOMException, IOException
+    {
+        SAXBuilder builder = new SAXBuilder();
+        InputStream stream = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
+        Document xmlDoc = builder.build(stream);
+        
+        return xmlDoc;
+    }
     
     public static void main(String[] args)
     {
-    	
-    	
-    	/**HashMap<Integer, List<Triple>> map = new HashMap<Integer, List<Triple>>();
-    	
-    	map.put(20180101,new ArrayList<Triple>());
-    	map.get(20180101).add(new Triple("08h00", "04h00", "Reunion"));
-    	map.get(20180101).add(new Triple("12h00", "02h00", "Repas"));
-    	map.put(20180102,new ArrayList<Triple>());
-    	map.get(20180102).add(new Triple("14h00", "04h00", "Reunion2"));
-    	
-    	//Triple t = new Triple("time", "duration", "desc");
-    	//System.out.println(t.getHeure()+"\n"+t.getDuree()+"\n"+t.getDescevent());
-    	
-    	int[] date = {20180101, 20180102};
-    	
-    	for(Map.Entry<Integer, List<Triple>> entry : map.entrySet()) 
-    	{
-    		
-    		//	Récupération dateKey
-    		int key = entry.getKey();
-    		System.out.println(key);
-    		
-    		//	Récupération de chause Liste de triplet associé a une date
-    		List<Triple> t = entry.getValue();
-    		System.out.println(t);
-    		
-    		 //	Récuperation des valeurss de chaque triplet de la liste
-    		 for(Triple trp:t)
-    		 {
-    			 	String heure = trp.getHeure();
-    			 	String durée = trp.getDuree();
-    			 	String details = trp.getDescevent();
-    		 }	
-
-
-    	}
-            // la clef peut être obtenue par entry.getKey()
-            // la valeur correspondante par entry.getValue()**/
     	
     }
 }
