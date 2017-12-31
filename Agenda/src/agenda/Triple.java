@@ -9,7 +9,7 @@ package agenda;
  *
  * @author Khoob
  */
-class Triple {
+public class Triple {
     private String heure;
     private String duree;
     private String descevent;
@@ -46,5 +46,10 @@ class Triple {
     
     public String getDescevent() { 
         return descevent;
+    }
+    
+    public String toString()
+    {
+    	return "("+this.getHeure()+", "+this.getDuree()+", "+this.getDescevent()+")";
     }
 }
