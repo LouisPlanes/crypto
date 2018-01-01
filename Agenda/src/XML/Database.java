@@ -15,6 +15,7 @@ import java.util.Map;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import agenda.Agenda2;
 
 
 import agenda.Triple;
@@ -24,7 +25,7 @@ public class Database{
 	//
     //  Données membres
     //
-	private HashMap<Integer, List<Triple>>calendar = new HashMap<Integer, List<Triple>>();
+    private HashMap<Integer, List<Triple>>calendar = new HashMap<Integer, List<Triple>>();
     //
     //  Constructeur
     //
