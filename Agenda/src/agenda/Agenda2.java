@@ -20,7 +20,7 @@ import java.util.Map;
 public class Agenda2 extends Canvas{
     private HashMap<Integer, List<Triple>> calendar = new HashMap();
     private ArrayList ls = new ArrayList();
-    private Triple aFaireJour = new Triple();
+    private Triple event = new Triple();
     
     public Agenda2() {super.setSize(100,20);}
   
@@ -46,7 +46,7 @@ public class Agenda2 extends Canvas{
     	map.put(20180102,new ArrayList<Triple>());
     	map.get(20180102).add(new Triple("14h00", "04h00", "Reunion2"));*/
     
-    public void setEvent(String date, Triple info) {
+    public void addEvent(String date, Triple info) {    //addEvent
         //int temp = transform(date);
         //this.calendar.put(transform(date), info);
         int key = transform(date);
@@ -71,19 +71,19 @@ public class Agenda2 extends Canvas{
         return result;
     }
     public void setAFaireJour(String heure,String duree,String descevent) {
-        aFaireJour.setHeure(heure);
-        aFaireJour.setDuree(duree);
-        aFaireJour.setDescevent(descevent);
+        event.setHeure(heure);
+        event.setDuree(duree);
+        event.setDescevent(descevent);
     } 
     public Triple getAFaireJour() {
-        return aFaireJour;
+        return event;
     }
     public void setDay(String date, Triple txt) {
-        setEvent(date,txt);
+        addEvent(date,txt);
     }
     
     public void getDay(String date) { 
-        aFaireJour=getEventList(date);              //Need gabin pour comprendre
+        event=getEventList(date);              //Need gabin pour comprendre
         this.fireDayEvent(new DayEvent(this));
     }
     
