@@ -115,43 +115,25 @@ public class Agenda2 extends Canvas{
     //  Methode qui renvoie la liste des Triple associé à la date d
     //
     public List<Triple> getTripleList (String d) {
-
-        List<Triple> eventList = new ArrayList();
-        for(Map.Entry<Integer, List<Triple>> entry : this.calendar.entrySet())
-        {
-            if(entry.getKey() == (transform(d)))
-            {
-                eventList = (entry.getValue());
-            }
-        }
         
-        this.fireDayEvent(new DayEvent(this));
-        
-        return eventList;
-    }
-    /*public void setAFaireJour(String heure,String duree,String descevent) {
-        triple.setHeure(heure);
-        triple.setDuree(duree);
-        triple.setDescevent(descevent);
-    } */
-    
-    /*public Triple getEventFromEventList(List<Triple> eventList, String heure) 
-    {
         try
         {
-            for(Triple trp: eventList)
+            List<Triple> eventList = new ArrayList();
+            for(Map.Entry<Integer, List<Triple>> entry : this.calendar.entrySet())
             {
-                if(trp.getHeure()==heure)
+                if(entry.getKey() == (transform(d)))
                 {
-                    return trp;
+                    eventList = (entry.getValue());
+                    return eventList;
                 }
             }
+
+            this.fireDayEvent(new DayEvent(this));
+
         }
-        catch(Exception e){}
-        
-        return null; // Il faut gerer l'execption de si ya pas d'triple
-                     // correspondant a l'heure donnée a la date donnée 
-    }*/
+        catch(Exception e) {}
+        return null; //Exception a gerer;
+    }
 
     
     public void paint(Graphics g){
