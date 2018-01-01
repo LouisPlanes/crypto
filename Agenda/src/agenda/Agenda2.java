@@ -52,40 +52,36 @@ public class Agenda2 extends Canvas{
         int key = transform(date);
         if(!this.calendar.containsKey(key))
         {
-            this.calendar.put(key, new ArrayList<Triple>());
+            this.calendar.put(key, new ArrayList<>());
         }
         this.calendar.get(key).add(info);
     }
     
     public List<Triple> getEventList (String date) {
 
-        List<Triple> result = new ArrayList();
+        List<Triple> eventList = new ArrayList();
         for(Map.Entry<Integer, List<Triple>> entry : this.calendar.entrySet())
         {
             if(entry.getKey() == (transform(date)))
             {
-                result = (entry.getValue());
+                eventList = (entry.getValue());
             }
         }
         
-        return result;
+        this.fireDayEvent(new DayEvent(this));
+        
+        return eventList;
     }
     public void setAFaireJour(String heure,String duree,String descevent) {
         event.setHeure(heure);
         event.setDuree(duree);
         event.setDescevent(descevent);
     } 
-    public Triple getAFaireJour() {
+    public Triple getEventFromEventList(List<Triple>, String heure) 
+    {
         return event;
     }
-    public void setDay(String date, Triple txt) {
-        addEvent(date,txt);
-    }
-    
-    public void getDay(String date) { 
-        event=getEventList(date);              //Need gabin pour comprendre
-        this.fireDayEvent(new DayEvent(this));
-    }
+
     
     public void paint(Graphics g){
         g.setFont(java.awt.Font.getFont(java.awt.Font.DIALOG));
