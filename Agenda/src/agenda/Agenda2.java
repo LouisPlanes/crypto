@@ -77,9 +77,20 @@ public class Agenda2 extends Canvas{
         event.setDuree(duree);
         event.setDescevent(descevent);
     } 
-    public Triple getEventFromEventList(List<Triple>, String heure) 
+    public Triple getEventFromEventList(List<Triple> eventList, String heure) 
     {
-        return event;
+        try
+        {
+            for(Triple trp: eventList)
+            {
+                if(trp.getHeure()==heure)
+                {
+                    return trp;
+                }
+            }
+        }
+        catch(Exception e){}
+        
     }
 
     

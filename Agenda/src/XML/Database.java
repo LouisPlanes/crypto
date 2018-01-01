@@ -41,9 +41,9 @@ public class Database{
     //
     //  Constructeur
     //
-    public Database()
+    public Database(HashMap<Integer, List<Triple>> map)
     {
-      
+        this.calendar = map;
     }
     
     //
