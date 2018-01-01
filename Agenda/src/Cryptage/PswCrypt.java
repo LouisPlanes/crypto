@@ -11,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
 import java.security.spec.KeySpec;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -27,7 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class PswCrypt {
 	
-	private static String SEPARATOR = "&@&";
+	private static final String SEPARATOR = "&@&";
 	
 	
 	/**
@@ -46,27 +48,23 @@ public class PswCrypt {
 	 * 			The password used to crypt the text
 	 * @param text 
 	 * 			The text you want to decrypt
-	 * @return A String that contains the decrypted text
-	 * @throws BadPaddingException 
-	 * @throws IllegalBlockSizeException 
-	 * @throws UnsupportedEncodingException 
-	 * @throws InvalidKeySpecException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws InvalidAlgorithmParameterException 
-	 * @throws InvalidKeyException 
-	 * @throws NoSuchPaddingException 
+	 * @return A String that contains the decrypted text 
 	 */
-	public static String pswUncrypt(String psw, String text) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
-		String[] tmp=text.split(SEPARATOR);
-		
-		
-		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");		
-		cipher.init(Cipher.DECRYPT_MODE, getEASKey(psw), new IvParameterSpec(tmp[0].getBytes("ISO-8859-1")));
-		String result = new String(cipher.doFinal(tmp[1].getBytes("ISO-8859-1")), "ISO-8859-1");
-		
-		
-		return result;
-		
+	public static String pswUncrypt(String psw, String text)  {
+            try {
+                String[] tmp=text.split(SEPARATOR);
+                
+                
+                Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+                cipher.init(Cipher.DECRYPT_MODE, getEASKey(psw), new IvParameterSpec(tmp[0].getBytes("ISO-8859-1")));
+                String result = new String(cipher.doFinal(tmp[1].getBytes("ISO-8859-1")), "ISO-8859-1");
+                
+                
+                return result;
+            } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException | UnsupportedEncodingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
 	}
 	/** Crypt a text using a EAS key generated from the password
 	 * 
@@ -77,40 +75,36 @@ public class PswCrypt {
 	 * @return A String that contains the crypted text
 	 * 
 	 * 
-	 * @throws InvalidParameterSpecException 
-	 * @throws NoSuchPaddingException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws InvalidKeyException 
-	 * @throws UnsupportedEncodingException 
-	 * @throws BadPaddingException 
-	 * @throws IllegalBlockSizeException 
-	 * @throws InvalidKeySpecException 
 	 */
-	public static String pswCrypt(String psw, String text) throws InvalidParameterSpecException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException {
+	public static String pswCrypt(String psw, String text) {
 		
-		SecretKey secret = getEASKey(psw);
-		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-		cipher.init(Cipher.ENCRYPT_MODE, secret);
-		AlgorithmParameters params = cipher.getParameters();
-		StringBuilder result = new StringBuilder();
-		result.append(new String(params.getParameterSpec(IvParameterSpec.class).getIV(), "ISO-8859-1"));
-		result.append(SEPARATOR);
-		result.append(new String(cipher.doFinal(text.getBytes("ISO-8859-1")), "ISO-8859-1"));
-		
-		return result.toString();
-		
+            try {
+                SecretKey secret = getEASKey(psw);
+                Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+                cipher.init(Cipher.ENCRYPT_MODE, secret);
+                AlgorithmParameters params = cipher.getParameters();
+                StringBuilder result = new StringBuilder();
+                result.append(new String(params.getParameterSpec(IvParameterSpec.class).getIV(), "ISO-8859-1"));
+                result.append(SEPARATOR);
+                result.append(new String(cipher.doFinal(text.getBytes("ISO-8859-1")), "ISO-8859-1"));
+                
+                return result.toString();
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | InvalidParameterSpecException | UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
+            }
+	return null;
 	}
 
 	private static SecretKey getEASKey(String psw) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		/* Derive the key, given password and salt. */
 		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-		KeySpec spec = new PBEKeySpec(psw.toCharArray(), salt, 65536, 256);
+		KeySpec spec = new PBEKeySpec(psw.toCharArray(), SALT, 65536, 256);
 		SecretKey tmp = factory.generateSecret(spec);
 		SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
 		return secret;
 	}
 	
-	public static byte[] salt = {
+	private static final byte[] SALT = {
 	        (byte)0x5e, (byte)0xa8, (byte)0xee, (byte)0x59,
 	        (byte)0xcc, (byte)0x7c, (byte)0x51, (byte)0x8c
 	    };
