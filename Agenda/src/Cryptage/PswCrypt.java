@@ -140,7 +140,7 @@ public class PswCrypt {
 		return secret;
 	}
 	
-	public static byte[] salt = {
+	private static byte[] salt = {
 	        (byte)0x5e, (byte)0xa8, (byte)0xee, (byte)0x59,
 	        (byte)0xcc, (byte)0x7c, (byte)0x51, (byte)0x8c
 	    };
