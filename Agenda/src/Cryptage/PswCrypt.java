@@ -98,13 +98,13 @@ public class PswCrypt {
 	private static SecretKey getEASKey(String psw) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		/* Derive the key, given password and salt. */
 		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-		KeySpec spec = new PBEKeySpec(psw.toCharArray(), salt, 65536, 256);
+		KeySpec spec = new PBEKeySpec(psw.toCharArray(), SALT, 65536, 256);
 		SecretKey tmp = factory.generateSecret(spec);
 		SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
 		return secret;
 	}
 	
-	private static byte[] salt = {
+	private static final byte[] SALT = {
 	        (byte)0x5e, (byte)0xa8, (byte)0xee, (byte)0x59,
 	        (byte)0xcc, (byte)0x7c, (byte)0x51, (byte)0x8c
 	    };

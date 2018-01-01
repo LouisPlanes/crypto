@@ -25,7 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author Khoob
  */
 public class AgendaFrame extends javax.swing.JFrame {
-    private String path;
+   
     
 
     
