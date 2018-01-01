@@ -57,6 +57,18 @@ public class Agenda2 extends Canvas{
         this.calendar.get(key).add(info);
     }
     
+    public Triple getEvent()
+    {
+        return event;
+    }
+    
+    public void setEvent(String heure, String duree, String descp)
+    {
+        this.event.setHeure(heure);
+        this.event.setDuree(duree);
+        this.event.setDescevent(descp);
+    }
+    
     public List<Triple> getEventList (String date) {
 
         List<Triple> eventList = new ArrayList();

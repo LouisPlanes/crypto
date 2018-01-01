@@ -5,31 +5,19 @@
  */
 package XML;
 
-import org.jdom2.output.*;
 import org.jdom2.*;
 
 import java.io.*;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.io.StringReader;
 
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 
 import agenda.Triple;
-import agenda.Agenda;
 
 public class Database{
     
@@ -37,7 +25,6 @@ public class Database{
     //  Données membres
     //
 	private HashMap<Integer, List<Triple>>calendar = new HashMap<Integer, List<Triple>>();
-    
     //
     //  Constructeur
     //
@@ -50,7 +37,7 @@ public class Database{
     //  Méthodes
     //
     
-    public Document xmlDataWriter(HashMap<Integer, List<Triple>> map)
+    public Document xmlDataWriter()
     {
         
     	Element root = new Element("data");
@@ -61,7 +48,7 @@ public class Database{
 		root.addContent(entrees);
 		
 		//	Parcours de la map date par date
-		for(Map.Entry<Integer, List<Triple>> entry : map.entrySet())
+		for(Map.Entry<Integer, List<Triple>> entry : calendar.entrySet())
 		{
 			//	Récuperation de la key = date
 			int key = entry.getKey();
