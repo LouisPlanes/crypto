@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
+
 import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -290,10 +290,9 @@ public class AgendaFrame extends javax.swing.JFrame {
             //TODO add XML
             String xml="<?xml ceci est un test svlskfvfslovnsovnsovnsovnj";
             String toSave=jCheckBoxCrypt.isSelected()?PswCrypt.pswCrypt(new String(jPasswordField.getPassword()), xml):xml;
-            System.out.println(toSave);
-                System.out.println(toSave.length());
-                
-            if(toSave!=null){
+            
+            if(toSave==null){
+            } else {
                 try(  PrintWriter out = new PrintWriter( file, "ISO-8859-1")  ){
                     out.println( toSave );
                 } catch (FileNotFoundException ex) {
@@ -318,8 +317,7 @@ public class AgendaFrame extends javax.swing.JFrame {
                 byte[] encoded = Files.readAllBytes(file.toPath());
                 String content = new String(encoded, "ISO-8859-1");
                 content = content.substring(0, content.length() - 2);
-                System.out.println(content);
-                System.out.println(content.length());
+                
                 String xml = (jCheckBoxCrypt.isSelected()?PswCrypt.pswUncrypt(new String(jPasswordField.getPassword()), content):content);
                 if(!xml.startsWith("<?xml")){
                     JOptionPane.showMessageDialog(this,"mauvais mot de passe","Inane error",JOptionPane.ERROR_MESSAGE);

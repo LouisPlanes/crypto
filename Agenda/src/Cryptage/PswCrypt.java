@@ -29,17 +29,14 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class PswCrypt {
 	
-	private static String SEPARATOR = "&@&";
+	private static final String SEPARATOR = "&@&";
 	
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String test = "ceci est un test";
-                String psw = "monpsw";
-                String crypt = pswCrypt(psw, test);
-                System.out.println(pswUncrypt(psw, crypt));
+		
 		
 	}
 	
