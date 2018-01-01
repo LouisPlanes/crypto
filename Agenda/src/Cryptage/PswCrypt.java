@@ -36,7 +36,10 @@ public class PswCrypt {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+		String test = "ceci est un test";
+                String psw = "monpsw";
+                String crypt = pswCrypt(psw, test);
+                System.out.println(pswUncrypt(psw, crypt));
 		
 	}
 	
@@ -48,15 +51,7 @@ public class PswCrypt {
 	 * 			The password used to crypt the text
 	 * @param text 
 	 * 			The text you want to decrypt
-	 * @return A String that contains the decrypted text
-	 * @throws BadPaddingException 
-	 * @throws IllegalBlockSizeException 
-	 * @throws UnsupportedEncodingException 
-	 * @throws InvalidKeySpecException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws InvalidAlgorithmParameterException 
-	 * @throws InvalidKeyException 
-	 * @throws NoSuchPaddingException 
+	 * @return A String that contains the decrypted text 
 	 */
 	public static String pswUncrypt(String psw, String text)  {
             try {
@@ -69,21 +64,7 @@ public class PswCrypt {
                 
                 
                 return result;
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchPaddingException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidKeySpecException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidKeyException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidAlgorithmParameterException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalBlockSizeException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (BadPaddingException ex) {
+            } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException | UnsupportedEncodingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException ex) {
                 Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
             }
             return null;
@@ -111,21 +92,7 @@ public class PswCrypt {
                 result.append(new String(cipher.doFinal(text.getBytes("ISO-8859-1")), "ISO-8859-1"));
                 
                 return result.toString();
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidKeySpecException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchPaddingException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidKeyException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidParameterSpecException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalBlockSizeException ex) {
-                Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (BadPaddingException ex) {
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | InvalidParameterSpecException | UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException ex) {
                 Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
             }
 	return null;

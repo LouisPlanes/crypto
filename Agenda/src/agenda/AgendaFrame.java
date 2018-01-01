@@ -9,7 +9,11 @@ import cryptage.PswCrypt;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -22,11 +26,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class AgendaFrame extends javax.swing.JFrame {
     private String path;
-    private String password;
+    
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    
     
     
     /**
@@ -147,6 +149,11 @@ public class AgendaFrame extends javax.swing.JFrame {
         jMenu1.add(jMenuSave);
 
         jMenuLoad.setText("Charger");
+        jMenuLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuLoadActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuLoad);
 
         jCheckBoxCrypt.setSelected(true);
@@ -275,25 +282,58 @@ public class AgendaFrame extends javax.swing.JFrame {
 
     private void jMenuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSaveActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(jCheckBoxCrypt.isSelected()?"agdc":"agd");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(jCheckBoxCrypt.isSelected()?"agenda crypté *.agdc":"agenda *.agd",jCheckBoxCrypt.isSelected()?"agdc":"agd");
         fileChooser.setFileFilter(filter);
         if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
 
             //TODO add XML
-            String xml="";
+            String xml="<?xml ceci est un test svlskfvfslovnsovnsovnsovnj";
             String toSave=jCheckBoxCrypt.isSelected()?PswCrypt.pswCrypt(new String(jPasswordField.getPassword()), xml):xml;
+            System.out.println(toSave);
+                System.out.println(toSave.length());
+                
             if(toSave!=null){
-                try(  PrintWriter out = new PrintWriter( file )  ){
+                try(  PrintWriter out = new PrintWriter( file, "ISO-8859-1")  ){
                     out.println( toSave );
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(AgendaFrame.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(this,"Erreur d'écriture, veuillez réessayer","Inane error",JOptionPane.ERROR_MESSAGE);
+                } catch (UnsupportedEncodingException ex) {
+                    Logger.getLogger(AgendaFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
         
     }//GEN-LAST:event_jMenuSaveActionPerformed
+
+    private void jMenuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLoadActionPerformed
+        
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(jCheckBoxCrypt.isSelected()?"agenda crypté *.agdc":"agenda *.agd",jCheckBoxCrypt.isSelected()?"agdc":"agd");
+        fileChooser.setFileFilter(filter);
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                File file = fileChooser.getSelectedFile();
+                byte[] encoded = Files.readAllBytes(file.toPath());
+                String content = new String(encoded, "ISO-8859-1");
+                content = content.substring(0, content.length() - 2);
+                System.out.println(content);
+                System.out.println(content.length());
+                String xml = (jCheckBoxCrypt.isSelected()?PswCrypt.pswUncrypt(new String(jPasswordField.getPassword()), content):content);
+                if(!xml.startsWith("<?xml")){
+                    JOptionPane.showMessageDialog(this,"mauvais mot de passe","Inane error",JOptionPane.ERROR_MESSAGE);
+                    
+                }else{
+                    System.out.println(xml);
+                    //TODO: lecture du XML
+                }
+                
+            } catch (IOException ex) {
+                Logger.getLogger(AgendaFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jMenuLoadActionPerformed
 
     /**
      * @param args the command line arguments
