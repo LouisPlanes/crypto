@@ -49,4 +49,9 @@ public class Evenement {
         this.infos.setDescevent(desc);
         
     }
+    
+    public String toString()
+    {
+    	return "(date : "+this.getDate()+", infos :"+this.getTriple().toString()+")";
+    }
 }

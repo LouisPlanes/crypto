@@ -15,6 +15,7 @@ import org.jdom2.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.jdom2.input.SAXBuilder;
@@ -86,7 +87,7 @@ public class Agenda2 extends Canvas{
         {
             Evenement event = new Evenement();
             List<Triple> list = this.getTripleList(d);
-
+            
             for(Triple trp:list)
             {
                 if(trp.getHeure().equals(h));
@@ -152,6 +153,11 @@ public class Agenda2 extends Canvas{
         return calendar;
     }
     
+    public void clearCalendar()
+    {
+        HashMap<Integer, List<Triple>> map = new HashMap();
+        this.calendar = map;
+    }
      
     public String ToString()
     {
@@ -195,13 +201,65 @@ public class Agenda2 extends Canvas{
     
     //  je vais directement faire une methode qui consistera a reformer directement
     //  la Hashmap = base de donnée a partir du String de Louis
-    public Document stringToXml(String xmlString) throws JDOMException, IOException
+    public void reloadCalendar(String xmlString) throws JDOMException, IOException
     {
-        SAXBuilder builder = new SAXBuilder();
-        InputStream stream = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
-        Document xmlDoc = builder.build(stream);
+        //  Netoyage du Calendar actuel
+        this.clearCalendar();
         
-        return xmlDoc;
+        try {
+            //  Transformation du String contenant les données de Calendar en Document Xml          
+            SAXBuilder sxb = new SAXBuilder();
+            String exampleXML = xmlString;
+            InputStream stream = new ByteArrayInputStream(exampleXML.getBytes("UTF-8"));
+            Document xmlDoc = sxb.build(stream);
+
+            //  Récupération de tous les Element "event" de xmlDoc dans une List
+            Element element = xmlDoc.getRootElement();
+            List<Element> events = element.getChildren();
+            //System.out.println("\nListe des event: "+events);            
+            ListIterator<Element> iterator = events.listIterator();
+
+            
+            //  Génération d'une Liste conteneant tous les evenements de xmlDoc
+            //  depuis la List ci-dessus
+            List<Evenement> eventList = new ArrayList<>();
+            while (iterator.hasNext()) 
+            {
+                Element el = (Element) iterator.next();
+
+                Triple infos = new Triple(  el.getAttributeValue("heure"),
+                                            el.getAttributeValue("duree"),
+                                            el.getChild("details").getText());
+                
+                Evenement event = new Evenement(el.getAttributeValue("date"), infos);
+
+                //System.out.println(event);
+
+                eventList.add(event);
+            }
+            
+            
+            //  Copier-coller de addEvent(Evenement event) avec ajsutement
+            //  permettant l'ajout des events dans Calendar sans double de date
+            for(Evenement ev:eventList)
+            {
+                String date = ev.getDate();
+                Triple info = ev.getTriple();
+
+                int key = transform(date);
+                if(!this.calendar.containsKey(key))
+                {
+                    this.calendar.put(key, new ArrayList<>());
+                }
+                this.calendar.get(key).add(info);
+            }
+		      
+
+        } catch (JDOMException e) {
+          e.printStackTrace(System.out);
+        } catch (IOException e) {
+          e.printStackTrace(System.out);
+        }
     }
     
 }
