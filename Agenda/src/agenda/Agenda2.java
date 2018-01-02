@@ -114,10 +114,16 @@ public class Agenda2 extends Canvas{
     //
     //  Methode qui renvoie la liste des Triple associé à la date d
     //
-    public List<Triple> getTripleList (String d) {
-        
-        try
-        {
+
+    /**
+     *
+     * @param d
+     * @return List of Triple
+     * @throws org.jdom2.JDOMException
+     * @throws java.io.IOException
+     */
+    public List<Triple> getTripleList (String d)throws JDOMException, IOException{
+
             List<Triple> eventList = new ArrayList();
             for(Map.Entry<Integer, List<Triple>> entry : this.calendar.entrySet())
             {
@@ -130,9 +136,8 @@ public class Agenda2 extends Canvas{
 
             this.fireDayEvent(new DayEvent(this));
 
-        }
-        catch(Exception e) {}
-        return null; //Exception a gerer;
+            //Exception a gerer; // Peut etre ajouter une methode ContainTripleList(String d)
+        return null;    //je sais pas comment virer ca
     }
 
     
@@ -154,32 +159,28 @@ public class Agenda2 extends Canvas{
         
         Element root = new Element("data");
     	Document document = new Document(root);
-    	Element info = new Element("Info");
-		root.addContent(info);		
-		Element entrees = new Element("Entrees");
-		root.addContent(entrees);
-		
-		//	Parcours de la map date par date
-		for(Map.Entry<Integer, List<Triple>> entry : calendar.entrySet())
-		{
-			//	Récuperation de la key = date
-			int key = entry.getKey();
-			
-			//	Récupération de chaque liste de triplet associé à la date Key
-			List<Triple> t = entry.getValue();
-			
-			for(Triple trp:t)
-   		 	{
-				entrees.addContent(new Element("event")
-						.setAttribute(new Attribute("duree", trp.getDuree()))
-						.setAttribute(new Attribute("heure", trp.getHeure()))
-						.setAttribute(new Attribute("date",new StringBuilder().append(""+key).toString()))
-						.addContent(new Element("details")
-								.setText(trp.getDescevent()))
-						);
-   		 	}	
-			
-		}
+
+        //	Parcours de la map date par date
+        for(Map.Entry<Integer, List<Triple>> entry : calendar.entrySet())
+        {
+                //	Récuperation de la key = date
+                int key = entry.getKey();
+
+                //	Récupération de chaque liste de triplet associé à la date Key
+                List<Triple> t = entry.getValue();
+
+                for(Triple trp:t)
+                {
+                        root.addContent(new Element("event")
+                                        .setAttribute(new Attribute("duree", trp.getDuree()))
+                                        .setAttribute(new Attribute("heure", trp.getHeure()))
+                                        .setAttribute(new Attribute("date",new StringBuilder().append(""+key).toString()))
+                                        .addContent(new Element("details")
+                                                        .setText(trp.getDescevent()))
+                                        );
+                }	
+
+        }
 		
         
         //  Transformation du Document XML en string
