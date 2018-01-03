@@ -297,12 +297,37 @@ private boolean save(){
     private void jFormattedTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField1KeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
             agenda1.getTripleList(jFormattedTextField1.getText());
+            jTextArea1.setText("");
+            jTextArea2.setText("");
+            jFormattedTextField2.setText("");
+            jFormattedTextField3.setText("");
             agenda1.fireEvent();
         }
     }//GEN-LAST:event_jFormattedTextField1KeyPressed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         agenda1.addEvent(jFormattedTextField1.getText(), new Triple(jFormattedTextField2.getText(), jFormattedTextField3.getText(),jTextArea2.getText()));
+        String tmp = "";
+        StringBuffer sb = new StringBuffer();
+        List<Triple> temp;
+        temp = agenda1.getTripleList(jFormattedTextField1.getText());
+        if(temp!=null) {
+            if (temp.get(0).getHeure() != null || temp.get(0).getDuree() != null || temp.get(0).getDescevent() != null) {
+                for (int i = 0; i<temp.size(); i++) {
+                    sb.append("Heure: ");
+                    sb.append(temp.get(i).getHeure());
+                    sb.append("\tDurée: ");
+                    sb.append(temp.get(i).getDuree());
+                    sb.append("\n  Description: ");
+                    sb.append(temp.get(i).getDescevent());
+                    sb.append("\n\n");
+                }
+                jTextArea1.setText(sb.toString());
+            }
+            else{
+                jTextArea1.setText(tmp);
+            }
+        }
         jTextArea2.setText("");
         jFormattedTextField2.setText("");
         jFormattedTextField3.setText("");
