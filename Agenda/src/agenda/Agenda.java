@@ -36,12 +36,12 @@ public class Agenda extends Canvas{
             ((DayListener)i.next()).day(e);
     }
     
-    public void setCalendar(String date, Triple info) {
+    public void setEvent(String date, Triple info) {
         //int temp = transform(date);
         this.calendar.put(transform(date), info);
     }
     
-    public Triple getCalendar (String date) {
+    public Triple getEvent (String date) {
         Triple result =  this.calendar.get(transform(date));
         return(result==null?new Triple():result);
     }
@@ -54,11 +54,11 @@ public class Agenda extends Canvas{
         return aFaireJour;
     }
     public void setDay(String date, Triple txt) {
-        setCalendar(date,txt);
+        setEvent(date,txt);
     }
     
     public void getDay(String date) { 
-        aFaireJour=getCalendar(date);
+        aFaireJour=getEvent(date);
         this.fireDayEvent(new DayEvent(this));
     }
     
@@ -66,4 +66,10 @@ public class Agenda extends Canvas{
         g.setFont(java.awt.Font.getFont(java.awt.Font.DIALOG));
         g.drawString("Agenda", 10, 10);
     }
+    
+    public HashMap<Integer, Triple> getCalendar()
+    {
+        return calendar;
+    }
+    
 }

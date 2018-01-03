@@ -249,7 +249,7 @@ public class AgendaFrame extends javax.swing.JFrame {
     private void agenda1Day(agenda.DayEvent evt) {//GEN-FIRST:event_agenda1Day
         String tmp = "";
         Triple temp;
-        temp = agenda1.getCalendar(jFormattedTextField1.getText());
+        temp = agenda1.getEvent(jFormattedTextField1.getText());
         if (temp.getHeure() != null || temp.getDuree() != null || temp.getDescevent() != null) {
             tmp = temp.getHeure()+" ("+temp.getDuree()+") : "+temp.getDescevent();
         }
