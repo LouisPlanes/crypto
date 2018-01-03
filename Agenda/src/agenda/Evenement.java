@@ -56,6 +56,6 @@ public class Evenement {
     
     public String toString()
     {
-    	return "(date : "+this.getDate()+", "+this.getTriple().toString()+")";
+    	return "(date : "+this.getDate()+", "+this.getTriple().toString()+")\n";
     }
 }

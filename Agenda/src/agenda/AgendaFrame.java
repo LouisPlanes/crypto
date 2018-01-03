@@ -5,32 +5,15 @@
  */
 package agenda;
 
-import cryptage.PswCrypt;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-
-import java.nio.file.Files;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.List;
 
 /**
  *
  * @author Khoob
  */
 public class AgendaFrame extends javax.swing.JFrame {
-   
-    
 
-    
-    
-    
     /**
      * Creates new form AgendaFrame
      */
@@ -47,44 +30,31 @@ public class AgendaFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        agenda1 = new agenda.Agenda();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jPasswordField = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuQuit = new javax.swing.JMenuItem();
-        jMenuSave = new javax.swing.JMenuItem();
-        jMenuLoad = new javax.swing.JMenuItem();
-        jCheckBoxCrypt = new javax.swing.JCheckBoxMenuItem();
+        jLabel3 = new javax.swing.JLabel();
+        jFormattedTextField3 = new javax.swing.JFormattedTextField();
+        jButton1 = new javax.swing.JButton();
+        agenda1 = new agenda.Agenda();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Date:");
-
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        jFormattedTextField1.setName("date"); // NOI18N
         jFormattedTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jFormattedTextField1KeyPressed(evt);
             }
         });
 
-        agenda1.addDayListener(new agenda.DayListener() {
-            public void day(agenda.DayEvent evt) {
-                agenda1Day(evt);
-                agenda1Day1(evt);
-            }
-        });
+        jLabel1.setText("Date:");
+        jLabel1.setName("Date:"); // NOI18N
 
         jTextArea1.setEditable(false);
         jTextArea1.setBackground(new java.awt.Color(220, 220, 220));
@@ -94,75 +64,30 @@ public class AgendaFrame extends javax.swing.JFrame {
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
-        jTextArea2.setName("descevent"); // NOI18N
         jScrollPane2.setViewportView(jTextArea2);
-
-        jButton1.setText("Valider");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-                jButton1ActionPerformed1(evt);
-                jButton1ActionPerformed2(evt);
-            }
-        });
 
         jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         jFormattedTextField2.setName("heure"); // NOI18N
-        jFormattedTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField2ActionPerformed(evt);
-            }
-        });
+
+        jLabel2.setText("Heure: ");
+
+        jLabel3.setText("Durée:");
 
         jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         jFormattedTextField3.setName("duree"); // NOI18N
-        jFormattedTextField3.addActionListener(new java.awt.event.ActionListener() {
+
+        jButton1.setText("Ajouter");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField3ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("Heure:");
-
-        jLabel4.setText("Durée:");
-
-        jPasswordField.setText("jPasswordField1");
-
-        jLabel2.setText("Mot de Passe");
-
-        jMenu1.setText("File");
-
-        jMenuQuit.setText("Quitter");
-        jMenuQuit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuQuitActionPerformed(evt);
+        agenda1.addDayListener(new agenda.DayListener() {
+            public void day(agenda.DayEvent evt) {
+                agenda1Day(evt);
             }
         });
-        jMenu1.add(jMenuQuit);
-
-        jMenuSave.setText("Enregistrer");
-        jMenuSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuSaveActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuSave);
-
-        jMenuLoad.setText("Charger");
-        jMenuLoad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuLoadActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuLoad);
-
-        jCheckBoxCrypt.setSelected(true);
-        jCheckBoxCrypt.setText("crypter");
-        jMenu1.add(jCheckBoxCrypt);
-
-        jMenuBar1.add(jMenu1);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,167 +96,102 @@ public class AgendaFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addComponent(jButton1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
+                                .addComponent(agenda1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(agenda1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(27, 27, 27)
-                .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(agenda1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
                         .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)))
+                        .addComponent(jLabel1))
+                    .addComponent(agenda1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        jFormattedTextField2.getAccessibleContext().setAccessibleName("heure");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jFormattedTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField1KeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
-            agenda1.getDay(jFormattedTextField1.getText());
+            agenda1.getTripleList(jFormattedTextField1.getText());
+            agenda1.fireEvent();
         }
     }//GEN-LAST:event_jFormattedTextField1KeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        agenda1.setAFaireJour(jFormattedTextField3.getText(),jFormattedTextField2.getText(),jTextArea2.getText());
-        agenda1.setDay(jFormattedTextField1.getText(), agenda1.getAFaireJour());
+        agenda1.addEvent(jFormattedTextField1.getText(), new Triple(jFormattedTextField2.getText(), jFormattedTextField3.getText(),jTextArea2.getText()));
+        jTextArea2.setText("");
+        jFormattedTextField2.setText("");
+        jFormattedTextField3.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void agenda1Day(agenda.DayEvent evt) {//GEN-FIRST:event_agenda1Day
         String tmp = "";
-        Triple temp;
-        temp = agenda1.getEvent(jFormattedTextField1.getText());
-        if (temp.getHeure() != null || temp.getDuree() != null || temp.getDescevent() != null) {
-            tmp = temp.getHeure()+" ("+temp.getDuree()+") : "+temp.getDescevent();
+        StringBuffer sb = new StringBuffer();
+        List<Triple> temp;
+        temp = agenda1.getTripleList(jFormattedTextField1.getText());
+        if(temp!=null) {
+            if (temp.get(0).getHeure() != null || temp.get(0).getDuree() != null || temp.get(0).getDescevent() != null) {
+                for (int i = 0; i<temp.size(); i++) {
+                    sb.append("Heure: ");
+                    sb.append(temp.get(i).getHeure());
+                    sb.append("\tDurée: ");
+                    sb.append(temp.get(i).getDuree());
+                    sb.append("\n  Description: ");
+                    sb.append(temp.get(i).getDescevent());
+                    sb.append("\n\n");
+                }
+                jTextArea1.setText(sb.toString());
+            }
+            else{
+                jTextArea1.setText(tmp);
+            }
         }
-        jTextArea1.setText(tmp);          
+        jTextArea2.setText("");
+        jFormattedTextField2.setText("");
+        jFormattedTextField3.setText("");
     }//GEN-LAST:event_agenda1Day
-
-    private void agenda1Day1(agenda.DayEvent evt) {//GEN-FIRST:event_agenda1Day1
-        //jTextArea2.setText("");
-    }//GEN-LAST:event_agenda1Day1
-
-    private void jFormattedTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField2ActionPerformed
-
-    private void jFormattedTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField3ActionPerformed
-
-    private void jButton1ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed1
-        
-    }//GEN-LAST:event_jButton1ActionPerformed1
-
-    private void jButton1ActionPerformed2(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed2
-        
-    }//GEN-LAST:event_jButton1ActionPerformed2
-
-    private void jMenuQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuQuitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_jMenuQuitActionPerformed
-
-    private void jMenuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSaveActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(jCheckBoxCrypt.isSelected()?"agenda crypté *.agdc":"agenda *.agd",jCheckBoxCrypt.isSelected()?"agdc":"agd");
-        fileChooser.setFileFilter(filter);
-        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-
-            //TODO add XML
-            String xml="<?xml ceci est un test svlskfvfslovnsovnsovnsovnj";
-            String toSave=jCheckBoxCrypt.isSelected()?PswCrypt.pswCrypt(new String(jPasswordField.getPassword()), xml):xml;
-            
-            if(toSave==null){
-            } else {
-                try(  PrintWriter out = new PrintWriter( file, "ISO-8859-1")  ){
-                    out.println( toSave );
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(AgendaFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(this,"Erreur d'écriture, veuillez réessayer","Inane error",JOptionPane.ERROR_MESSAGE);
-                } catch (UnsupportedEncodingException ex) {
-                    Logger.getLogger(AgendaFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        
-    }//GEN-LAST:event_jMenuSaveActionPerformed
-
-    private void jMenuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLoadActionPerformed
-        
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(jCheckBoxCrypt.isSelected()?"agenda crypté *.agdc":"agenda *.agd",jCheckBoxCrypt.isSelected()?"agdc":"agd");
-        fileChooser.setFileFilter(filter);
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            try {
-                File file = fileChooser.getSelectedFile();
-                byte[] encoded = Files.readAllBytes(file.toPath());
-                String content = new String(encoded, "ISO-8859-1");
-                content = content.substring(0, content.length() - 2);
-                
-                String xml = (jCheckBoxCrypt.isSelected()?PswCrypt.pswUncrypt(new String(jPasswordField.getPassword()), content):content);
-                if(!xml.startsWith("<?xml")){
-                    JOptionPane.showMessageDialog(this,"mauvais mot de passe","Inane error",JOptionPane.ERROR_MESSAGE);
-                    
-                }else{
-                    System.out.println(xml);
-                    //TODO: lecture du XML
-                }
-                
-            } catch (IOException ex) {
-                Logger.getLogger(AgendaFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_jMenuLoadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,20 +231,12 @@ public class AgendaFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private agenda.Agenda agenda1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxCrypt;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuLoad;
-    private javax.swing.JMenuItem jMenuQuit;
-    private javax.swing.JMenuItem jMenuSave;
-    private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
