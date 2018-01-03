@@ -32,13 +32,7 @@ public class PswCrypt {
 	private static final String SEPARATOR = "&@&";
 	
 	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-		
-	}
+	
 	
 	
 	
@@ -57,13 +51,14 @@ public class PswCrypt {
                 
                 Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
                 cipher.init(Cipher.DECRYPT_MODE, getEASKey(psw), new IvParameterSpec(tmp[0].getBytes("ISO-8859-1")));
+                
                 String result = new String(cipher.doFinal(tmp[1].getBytes("ISO-8859-1")), "ISO-8859-1");
                 
                 
                 return result;
             } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException | UnsupportedEncodingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException ex) {
                 Logger.getLogger(PswCrypt.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
             return null;
 	}
 	/** Crypt a text using a EAS key generated from the password

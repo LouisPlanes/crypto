@@ -34,12 +34,16 @@ import org.jdom2.output.XMLOutputter;
 public class Agenda extends Canvas{
     private HashMap<Integer, List<Triple>> calendar = new HashMap();
     private ArrayList ls = new ArrayList();
-    //private Triple triple = new Triple();
     
     public Agenda() {super.setSize(60,15);}
     
     
-    //  Trasnformation d'une date au format JJ/MM/AAAA en AAAAMMJJ
+    /**
+     * Trasnformation d'une date au format JJ/MM/AAAA en AAAAMMJJ
+     * @param date : date à transformer
+     * @return un int représentant la date
+     */
+    
     public int transform(String date) 
     {
         String[] tmp = date.split("/");
@@ -64,9 +68,12 @@ public class Agenda extends Canvas{
     
     
     //OK
+    /**
+     * Ajoute un evenement à la base de donnée
+     * @param date : date de l'event à ajouter
+     * @param info : informations de l'event à ajouter
+     */
     public void addEvent(String date, Triple info) {    //addEvent
-        //int temp = transform(date);
-        //this.calendar.put(transform(date), info);
         int key = transform(date);
         if(!this.calendar.containsKey(key))
         {
@@ -76,6 +83,10 @@ public class Agenda extends Canvas{
     }
     
     //OK
+    /**
+     * Ajoute un evenement à la base de donnée
+     * @param event : event à ajouter
+     */
     public void addEvent(Evenement event)
     {
         String date = event.getDate();
@@ -97,6 +108,13 @@ public class Agenda extends Canvas{
     }
     
     // Test OK
+    /**
+     * Permet la recuperation d'un event de la base de donnée en connaissant 
+     * sa date et son heure de début
+     * @param d : date de l'event à recupérer
+     * @param h : heure de l'event a récupérer
+     * @return l'event souhaité
+     */
     public Evenement getEvent(String d, String h)
     {
 
@@ -127,6 +145,11 @@ public class Agenda extends Canvas{
     //
 
     // Test OK
+    /**
+     * Permet la récupération de la liste des Triple d'events à un date donnée
+     * @param d : date des events
+     * @return Une liste de Triple 
+     */
     public List<Triple> getTripleList (String d){
         List<Triple> eventList = new ArrayList();
         if (!calendar.isEmpty()){
@@ -154,25 +177,41 @@ public class Agenda extends Canvas{
         g.drawString("Agenda", 10, 10);
     }
     
-    
+    /**
+     * Récupération de la base de donnée
+     * @return la base de donnée contenant les events
+     */
     public HashMap<Integer, List<Triple>> getCalendar()
     {
         return calendar;
     }
     
     //  Test OK
+    /**
+     * affiche le contenu de la base de données dans un toString
+     * @return la base de donnée dans un toString
+     */
     public String printCalendar()
     {
         return this.calendar.toString();
     }
     
     //  Test OK
+    /**
+     * Efface le contenu de la base de donnée
+     */
     public void clearCalendar()
     {
         this.calendar.clear();
     }
     
     // Test OK
+
+    /**
+     * Retourne une string au format xml contenant le contenu du calendrier
+     * @return 
+     */
+    @Override
     public String toString()
     {
         // Ecriture de la HashMap sous forme de Document XML
@@ -215,6 +254,12 @@ public class Agenda extends Canvas{
     
     //  je vais directement faire une methode qui consistera a reformer directement
     //  la Hashmap = base de donnée a partir du String de Louis
+    /**
+     * Génère un calendrier depuis un string au format XML
+     * @param xmlString la string au format xml
+     * @throws JDOMException
+     * @throws IOException
+     */
     public void reloadCalendar(String xmlString) throws JDOMException, IOException
     {
         //  Netoyage du Calendar actuel
