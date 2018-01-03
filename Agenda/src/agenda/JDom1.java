@@ -1,4 +1,4 @@
-package XML;
+package agenda;
 
 /**
  *
