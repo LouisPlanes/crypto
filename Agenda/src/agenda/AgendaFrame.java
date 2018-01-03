@@ -5,15 +5,107 @@
  */
 package agenda;
 
+import cryptage.PswCrypt;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jdom2.JDOMException;
 
 /**
  *
  * @author Khoob
  */
 public class AgendaFrame extends javax.swing.JFrame {
+private boolean save(){
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(jCheckBoxCrypt.isSelected()?"agenda crypté *.agdc":"agenda *.agd",jCheckBoxCrypt.isSelected()?"agdc":"agd");
+        fileChooser.setFileFilter(filter);
+        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
 
+            
+            
+            String xml=agenda1.toString();
+            String toSave=jCheckBoxCrypt.isSelected()?PswCrypt.pswCrypt(new String(jPasswordField.getPassword()), xml):xml;
+            
+            if(toSave==null){
+            } else {
+                try(  PrintWriter out = new PrintWriter( file, "ISO-8859-1")  ){
+                    out.println( toSave );
+                    return true;
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(AgendaFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this,"Erreur d'écriture, veuillez réessayer","Inane error",JOptionPane.ERROR_MESSAGE);
+                } catch (UnsupportedEncodingException ex) {
+                    Logger.getLogger(AgendaFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    
+                }
+            }
+        }
+        
+        return false;
+    }
+    private boolean load(){
+        Object[] options = {"Sauver maintenant",
+                                        "supprimer les changements",
+                                        "annuler (ne rien faire)"};
+        int n = JOptionPane.showOptionDialog(this,
+                        "Vous allez peut-être perdre des données, Que voulez-vous faire de l'agenda actuellement ouvert?",
+                        "Warning",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[2]);
+        switch (n) {
+        
+            case JOptionPane.YES_OPTION:
+                if(!save()){
+                    return false;
+                }
+                break;
+            case JOptionPane.NO_OPTION:
+                
+                break;
+            default:
+                return false;
+        }
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(jCheckBoxCrypt.isSelected()?"agenda crypté *.agdc":"agenda *.agd",jCheckBoxCrypt.isSelected()?"agdc":"agd");
+        fileChooser.setFileFilter(filter);
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                File file = fileChooser.getSelectedFile();
+                byte[] encoded = Files.readAllBytes(file.toPath());
+                String content = new String(encoded, "ISO-8859-1");
+                content = content.substring(0, content.length() - 2);
+                
+                String xml = (jCheckBoxCrypt.isSelected()?PswCrypt.pswUncrypt(new String(jPasswordField.getPassword()), content):content);
+                if(!xml.startsWith("<?xml")){
+                    JOptionPane.showMessageDialog(this,"mauvais mot de passe","Inane error",JOptionPane.ERROR_MESSAGE);
+                    
+                }else{
+                    
+                    agenda1.reloadCalendar(xml);
+                    return true;
+                }
+                
+            } catch (IOException | JDOMException ex) {
+                Logger.getLogger(AgendaFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }    
     /**
      * Creates new form AgendaFrame
      */
@@ -42,6 +134,14 @@ public class AgendaFrame extends javax.swing.JFrame {
         jFormattedTextField3 = new javax.swing.JFormattedTextField();
         jButton1 = new javax.swing.JButton();
         agenda1 = new agenda.Agenda();
+        jPasswordField = new javax.swing.JPasswordField();
+        jLabel4 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        QuitMenu = new javax.swing.JMenuItem();
+        SaveMenu = new javax.swing.JMenuItem();
+        LoadMenu = new javax.swing.JMenuItem();
+        jCheckBoxCrypt = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,6 +189,43 @@ public class AgendaFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("mot de passe:");
+
+        jMenu1.setText("Fichier");
+
+        QuitMenu.setText("Quitter");
+        QuitMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QuitMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(QuitMenu);
+
+        SaveMenu.setText("Enregistrer");
+        SaveMenu.setToolTipText("");
+        SaveMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(SaveMenu);
+
+        LoadMenu.setText("Charger");
+        LoadMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoadMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(LoadMenu);
+
+        jCheckBoxCrypt.setSelected(true);
+        jCheckBoxCrypt.setText("Crypter?");
+        jMenu1.add(jCheckBoxCrypt);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,11 +239,14 @@ public class AgendaFrame extends javax.swing.JFrame {
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(agenda1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -117,7 +257,7 @@ public class AgendaFrame extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45))))
         );
@@ -128,7 +268,9 @@ public class AgendaFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1))
+                        .addComponent(jLabel1)
+                        .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4))
                     .addComponent(agenda1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -143,7 +285,7 @@ public class AgendaFrame extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -193,6 +335,18 @@ public class AgendaFrame extends javax.swing.JFrame {
         jFormattedTextField3.setText("");
     }//GEN-LAST:event_agenda1Day
 
+    private void QuitMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitMenuActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_QuitMenuActionPerformed
+
+    private void SaveMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveMenuActionPerformed
+        save();
+    }//GEN-LAST:event_SaveMenuActionPerformed
+
+    private void LoadMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadMenuActionPerformed
+        load();
+    }//GEN-LAST:event_LoadMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -229,14 +383,22 @@ public class AgendaFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem LoadMenu;
+    private javax.swing.JMenuItem QuitMenu;
+    private javax.swing.JMenuItem SaveMenu;
     private agenda.Agenda agenda1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxCrypt;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
