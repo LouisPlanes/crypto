@@ -40,9 +40,7 @@ public class Agenda2 extends Canvas{
     public int transform(String date) 
     {
         String[] tmp = date.split("/");
-        //System.out.println(tmp[0]);
-        //System.out.println(tmp[1]);
-        //System.out.println(tmp[2]);
+        
 
         int temp = Integer.parseInt(tmp[0]) + Integer.parseInt(tmp[1]) * 100 + Integer.parseInt(tmp[2]) * 10000; 
         return temp;        
@@ -227,7 +225,6 @@ public class Agenda2 extends Canvas{
             //  Récupération de tous les Element "event" de xmlDoc dans une List
             Element element = xmlDoc.getRootElement();
             List<Element> events = element.getChildren();
-            //System.out.println("\nListe des event: "+events);            
             ListIterator<Element> iterator = events.listIterator();
 
             
@@ -244,8 +241,7 @@ public class Agenda2 extends Canvas{
                 
                 Evenement event = new Evenement(el.getAttributeValue("date"), infos);
 
-                //System.out.println(event);
-
+                
                 eventList.add(event);
             }
             

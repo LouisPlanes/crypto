@@ -10,17 +10,20 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-//import org.jdom2.*;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import org.jdom2.Attribute;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
 
-//import org.jdom2.input.SAXBuilder;
-//import org.jdom2.output.Format;
-//import org.jdom2.output.XMLOutputter;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 
 
@@ -40,9 +43,7 @@ public class Agenda extends Canvas{
     public int transform(String date) 
     {
         String[] tmp = date.split("/");
-        //System.out.println(tmp[0]);
-        //System.out.println(tmp[1]);
-        //System.out.println(tmp[2]);
+        
 
         int temp = Integer.parseInt(tmp[0]) + Integer.parseInt(tmp[1]) * 100 + Integer.parseInt(tmp[2]) * 10000; 
         return temp;        
@@ -131,7 +132,7 @@ public class Agenda extends Canvas{
         if (!calendar.isEmpty()){
             for(Map.Entry<Integer, List<Triple>> entry : this.calendar.entrySet())
             {
-               //System.out.println("key : "+entry.getKey());
+               
                if(entry.getKey() == (transform(d)))
                {
                     eventList = (entry.getValue());
@@ -170,7 +171,7 @@ public class Agenda extends Canvas{
     {
         this.calendar.clear();
     }
-    /*
+    
     // Test OK
     public String toString()
     {
@@ -229,7 +230,7 @@ public class Agenda extends Canvas{
             //  Récupération de tous les Element "event" de xmlDoc dans une List
             Element element = xmlDoc.getRootElement();
             List<Element> events = element.getChildren();
-            //System.out.println("\nListe des event: "+events);            
+                  
             ListIterator<Element> iterator = events.listIterator();
 
             
@@ -246,7 +247,7 @@ public class Agenda extends Canvas{
                 
                 Evenement event = new Evenement(el.getAttributeValue("date"), infos);
 
-                //System.out.println(event);
+                
 
                 eventList.add(event);
             }
@@ -269,11 +270,9 @@ public class Agenda extends Canvas{
             }
 		      
 
-        } catch (JDOMException e) {
-          e.printStackTrace(System.out);
-        } catch (IOException e) {
+        } catch (JDOMException | IOException e) {
           e.printStackTrace(System.out);
         }
     }
-    */
+    
 }
