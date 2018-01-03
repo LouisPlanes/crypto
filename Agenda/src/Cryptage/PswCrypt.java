@@ -32,13 +32,7 @@ public class PswCrypt {
 	private static final String SEPARATOR = "&@&";
 	
 	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-		
-	}
+	
 	
 	
 	

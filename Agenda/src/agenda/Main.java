@@ -34,7 +34,7 @@ public class Main {
     public static void main(String[] args) throws JDOMException, IOException
     {
         
-        Agenda2 agenda = new Agenda2();
+        Agenda agenda = new Agenda();
         
         Evenement event1 = new Evenement();
         Triple info1 = new Triple("08:00", "02:00", "event numero 1");
@@ -62,7 +62,7 @@ public class Main {
         
         //  Creation d'un nouvel agenda pour rechargement depuis un autre agenda
         
-        Agenda2 agenda2 = new Agenda2();
+        Agenda agenda2 = new Agenda();
         
         Evenement event11 = new Evenement();
         Triple info11 = new Triple("08:00", "02:00", "event numero 11");
