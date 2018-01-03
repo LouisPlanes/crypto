@@ -40,9 +40,9 @@ public class Agenda2 extends Canvas{
     public int transform(String date) 
     {
         String[] tmp = date.split("/");
-        System.out.println(tmp[0]);
-        System.out.println(tmp[1]);
-        System.out.println(tmp[2]);
+        //System.out.println(tmp[0]);
+        //System.out.println(tmp[1]);
+        //System.out.println(tmp[2]);
 
         //  Cas ou MM<10
         if(Integer.parseInt(tmp[1])<=9)
@@ -86,6 +86,7 @@ public class Agenda2 extends Canvas{
         this.calendar.get(key).add(info);
     }
     
+   
     public void addEvent(Evenement event)
     {
         String date = event.getDate();
@@ -99,24 +100,29 @@ public class Agenda2 extends Canvas{
         this.calendar.get(key).add(info);
     }
     
+    // Test OK
     public Evenement getEvent(String d, String h)
     {
 
-            Evenement event = new Evenement();
+
             List<Triple> list = this.getTripleList(d);
+
             
             for(Triple trp:list)
             {
+
                 if(trp.getHeure().equals(h));
                 {
-                    event.setDate(d);
-                    event.setTriple(h,trp.getDuree(),trp.getDescevent());
+
+                    String descp = trp.getDescevent();
+                    String duree = trp.getDuree();
+                    Evenement event = new Evenement(d,new Triple(h,duree,descp));
                     return event;
                 }
             }
         
-        return null; // Il faut gerer l'execption du cas où il n'y a pas
-                     // d'evenement associé au couple date+heure 
+        return null; 
+                     
     }
     
     /*public void setEvent(String heure, String duree, String descp)
@@ -131,16 +137,10 @@ public class Agenda2 extends Canvas{
     //  Methode qui renvoie la liste des Triple associé à la date d
     //
 
-    /**
-     *
-     * @param d
-     * @return List of Triple
-
-     */
+    // Test OK
     public List<Triple> getTripleList (String d){
 
         List<Triple> eventList = new ArrayList();
-        System.out.println("eventList : "+eventList);
         for(Map.Entry<Integer, List<Triple>> entry : this.calendar.entrySet())
         {
             System.out.println("key : "+entry.getKey());
@@ -151,10 +151,10 @@ public class Agenda2 extends Canvas{
             }
         }
 
-        //this.fireDayEvent(new DayEvent(this));
+        this.fireDayEvent(new DayEvent(this));
 
-            //Exception a gerer; // Peut etre ajouter une methode ContainTripleList(String d)
-        return null;    //je sais pas comment virer ca
+            
+        return null;    
     }
 
     

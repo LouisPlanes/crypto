@@ -14,7 +14,11 @@ public class Evenement {
     private String date;
     private Triple infos;
     
-    public Evenement() {}
+    public Evenement() 
+    {
+        this.date = "01/01/2000";
+        this.infos = new Triple("unknow","unknow","unknow" );
+    }
     
     public Evenement(String str, Triple triple)
     {
@@ -52,6 +56,6 @@ public class Evenement {
     
     public String toString()
     {
-    	return "(date : "+this.getDate()+", infos :"+this.getTriple().toString()+")";
+    	return "(date : "+this.getDate()+", "+this.getTriple().toString()+")";
     }
 }

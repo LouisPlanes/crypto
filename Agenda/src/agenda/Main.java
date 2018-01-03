@@ -40,14 +40,15 @@ public class Main {
         event1.setTriple(info1);
         System.out.println(event1);
         
-        int i = agenda.transform("01/01/2018");
-        System.out.println("\n"+i);
+        //int i = agenda.transform("01/01/2018");
+        //System.out.println("\n"+i);
         
-        //agenda.addEvent(event1);
-        //List<Triple> tripleList = agenda.getTripleList("01/01/2018");
-        //System.out.println(tripleList);
-        //agenda.getEvent("20180101", "08:00").toString();
-        
+        agenda.addEvent(event1);
+        agenda.addEvent("01/01/2018", info1);
+        List<Triple> tripleList = agenda.getTripleList("01/01/2018");
+        System.out.println(tripleList);
+        Evenement event1_1 = agenda.getEvent("01/01/2018", "08:00");
+        System.out.println(event1_1);
         
         
         

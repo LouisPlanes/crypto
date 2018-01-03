@@ -50,6 +50,6 @@ public class Triple {
     
     public String toString()
     {
-    	return "(heure : "+this.getHeure()+", duree : "+this.getDuree()+", description : "+this.getDescevent()+")";
+    	return "heure : "+this.getHeure()+", duree : "+this.getDuree()+", description : "+this.getDescevent();
     }
 }
