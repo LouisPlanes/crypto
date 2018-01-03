@@ -34,13 +34,31 @@ public class Agenda2 extends Canvas{
     //private Triple triple = new Triple();
     
     public Agenda2() {super.setSize(100,20);}
-  
+    
+    
+    //  Trasnformation d'une date au format JJ/MM/AAAA en AAAAMMJJ
     public int transform(String date) 
     {
         String[] tmp = date.split("/");
+        System.out.println(tmp[0]);
+        System.out.println(tmp[1]);
+        System.out.println(tmp[2]);
+
+        //  Cas ou MM<10
+        if(Integer.parseInt(tmp[1])<=9)
+        {
+            int temp = Integer.parseInt(tmp[0]) + Integer.parseInt(tmp[1]) * 100 + Integer.parseInt(tmp[2]) * 100000; 
+            return temp;        
+        }
+        
+        //  Cas normal ou JJ<10
         int temp = Integer.parseInt(tmp[0]) + Integer.parseInt(tmp[1]) * 100 + Integer.parseInt(tmp[2]) * 10000; 
-        return temp;
+        return temp;        
+
+        
     }
+    
+
     
     public void addDayListener(DayListener l) { ls.add(l); }
     public void removeDayListener(DayListener l) { ls.remove(l); }
@@ -83,8 +101,7 @@ public class Agenda2 extends Canvas{
     
     public Evenement getEvent(String d, String h)
     {
-        try
-        {
+
             Evenement event = new Evenement();
             List<Triple> list = this.getTripleList(d);
             
@@ -97,8 +114,6 @@ public class Agenda2 extends Canvas{
                     return event;
                 }
             }
-        }
-        catch(Exception e){}
         
         return null; // Il faut gerer l'execption du cas où il n'y a pas
                      // d'evenement associé au couple date+heure 
@@ -120,22 +135,23 @@ public class Agenda2 extends Canvas{
      *
      * @param d
      * @return List of Triple
-     * @throws org.jdom2.JDOMException
-     * @throws java.io.IOException
+
      */
-    public List<Triple> getTripleList (String d)throws JDOMException, IOException{
+    public List<Triple> getTripleList (String d){
 
-            List<Triple> eventList = new ArrayList();
-            for(Map.Entry<Integer, List<Triple>> entry : this.calendar.entrySet())
+        List<Triple> eventList = new ArrayList();
+        System.out.println("eventList : "+eventList);
+        for(Map.Entry<Integer, List<Triple>> entry : this.calendar.entrySet())
+        {
+            System.out.println("key : "+entry.getKey());
+            if(entry.getKey() == (transform(d)))
             {
-                if(entry.getKey() == (transform(d)))
-                {
-                    eventList = (entry.getValue());
-                    return eventList;
-                }
+                eventList = (entry.getValue());
+                return eventList;
             }
+        }
 
-            this.fireDayEvent(new DayEvent(this));
+        //this.fireDayEvent(new DayEvent(this));
 
             //Exception a gerer; // Peut etre ajouter une methode ContainTripleList(String d)
         return null;    //je sais pas comment virer ca
@@ -240,7 +256,8 @@ public class Agenda2 extends Canvas{
             
             
             //  Copier-coller de addEvent(Evenement event) avec ajsutement
-            //  permettant l'ajout des events dans Calendar sans double de date
+            //  permettant l'ajout des events dans Calendar sans doublon de date
+            //  en parcourant la liste d'event.
             for(Evenement ev:eventList)
             {
                 String date = ev.getDate();
