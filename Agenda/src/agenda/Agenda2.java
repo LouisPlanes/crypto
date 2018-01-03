@@ -44,14 +44,6 @@ public class Agenda2 extends Canvas{
         //System.out.println(tmp[1]);
         //System.out.println(tmp[2]);
 
-        //  Cas ou MM<10
-        if(Integer.parseInt(tmp[1])<=9)
-        {
-            int temp = Integer.parseInt(tmp[0]) + Integer.parseInt(tmp[1]) * 100 + Integer.parseInt(tmp[2]) * 100000; 
-            return temp;        
-        }
-        
-        //  Cas normal ou JJ<10
         int temp = Integer.parseInt(tmp[0]) + Integer.parseInt(tmp[1]) * 100 + Integer.parseInt(tmp[2]) * 10000; 
         return temp;        
 
@@ -96,6 +88,13 @@ public class Agenda2 extends Canvas{
         this.calendar.get(key).add(info);
     }
     
+    
+    // A coder si on a le temps
+    public void setEvent(String date, String heure)
+    {
+        
+    }
+    
     // Test OK
     public Evenement getEvent(String d, String h)
     {
@@ -120,14 +119,7 @@ public class Agenda2 extends Canvas{
         return null; 
                      
     }
-    
-    /*public void setEvent(String heure, String duree, String descp)
-    {
-        this.triple.setHeure(heure);
-        this.triple.setDuree(duree);
-        this.triple.setDescevent(descp);
-    }*/
-    
+
     
     //
     //  Methode qui renvoie la liste des Triple associé à la date d
@@ -165,13 +157,20 @@ public class Agenda2 extends Canvas{
         return calendar;
     }
     
-    //  OK
+    //  Test OK
+    public String printCalendar()
+    {
+        return this.calendar.toString();
+    }
+    
+    //  Test OK
     public void clearCalendar()
     {
         this.calendar.clear();
     }
-     
-    public String ToString()
+    
+    // Test OK
+    public String toString()
     {
         // Ecriture de la HashMap sous forme de Document XML
         
@@ -259,7 +258,7 @@ public class Agenda2 extends Canvas{
                 String date = ev.getDate();
                 Triple info = ev.getTriple();
 
-                int key = transform(date);
+                int key = Integer.parseInt(date);
                 if(!this.calendar.containsKey(key))
                 {
                     this.calendar.put(key, new ArrayList<>());
