@@ -61,6 +61,12 @@ public class Agenda2 extends Canvas{
     
     
     //OK
+
+    /**
+     * Ajoute un evenement à la base de donnée
+     * @param date : date de l'event à ajouter
+     * @param info : informations de l'event à ajouter
+     */
     public void addEvent(String date, Triple info) {    //addEvent
         //int temp = transform(date);
         //this.calendar.put(transform(date), info);
@@ -73,6 +79,11 @@ public class Agenda2 extends Canvas{
     }
     
     //OK
+
+    /**
+     * Ajoute un evenement à la base de donnée
+     * @param event : event à ajouter
+     */
     public void addEvent(Evenement event)
     {
         String date = event.getDate();
@@ -88,12 +99,26 @@ public class Agenda2 extends Canvas{
     
     
     // A coder si on a le temps
+
+    /**
+     *
+     * @param date
+     * @param heure
+     */
     public void setEvent(String date, String heure)
     {
         
     }
     
     // Test OK
+
+    /**
+     * Permet la recuperation d'un event de la base de donnée en connaissant 
+     * sa date et son heure de début
+     * @param d : date de l'event à recupérer
+     * @param h : heure de l'event a récupérer
+     * @return l'event souhaité
+     */
     public Evenement getEvent(String d, String h)
     {
 
@@ -124,6 +149,12 @@ public class Agenda2 extends Canvas{
     //
 
     // Test OK
+
+    /**
+     * Permet la récupération de la liste des Triple d'events à un date donnée
+     * @param d : date des events
+     * @return Une liste de Triple 
+     */
     public List<Triple> getTripleList (String d){
 
         List<Triple> eventList = new ArrayList();
@@ -149,19 +180,31 @@ public class Agenda2 extends Canvas{
         g.drawString("Agenda", 10, 10);
     }
     
-    
+    /**
+     * Récupération de la base de donnée
+     * @return la base de donnée contenant les events
+     */
     public HashMap<Integer, List<Triple>> getCalendar()
     {
         return calendar;
     }
     
     //  Test OK
+
+    /**
+     * affiche le contenu de la base de données dans un toString
+     * @return la base de donnée dans un toString
+     */
     public String printCalendar()
     {
         return this.calendar.toString();
     }
     
     //  Test OK
+
+    /**
+     * Efface le contenu de la base de donnée
+     */
     public void clearCalendar()
     {
         this.calendar.clear();
@@ -210,6 +253,13 @@ public class Agenda2 extends Canvas{
     
     //  je vais directement faire une methode qui consistera a reformer directement
     //  la Hashmap = base de donnée a partir du String de Louis
+
+    /**
+     *
+     * @param xmlString
+     * @throws JDOMException
+     * @throws IOException
+     */
     public void reloadCalendar(String xmlString) throws JDOMException, IOException
     {
         //  Netoyage du Calendar actuel
