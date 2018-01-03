@@ -91,10 +91,10 @@ private boolean save(){
                 content = content.substring(0, content.length() - 2);
                 
                 String xml = (jCheckBoxCrypt.isSelected()?PswCrypt.pswUncrypt(new String(jPasswordField.getPassword()), content):content);
-                if(!xml.startsWith("<?xml")){
-                    JOptionPane.showMessageDialog(this,"mauvais mot de passe","Inane error",JOptionPane.ERROR_MESSAGE);
-                    
-                }else{
+                if(xml==null){
+                    JOptionPane.showMessageDialog(this,"Erreur à l'ouverture, verifiez votre mot de passe","Inane error",JOptionPane.ERROR_MESSAGE);
+                }
+                else{
                     
                     agenda1.reloadCalendar(xml);
                     return true;
