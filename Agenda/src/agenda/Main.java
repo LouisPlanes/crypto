@@ -50,7 +50,9 @@ public class Main {
         Evenement event1_1 = agenda.getEvent("01/01/2018", "08:00");
         System.out.println(event1_1);
         
-        
+        agenda.clearCalendar();
+        List<Triple> tripleList2 = agenda.getTripleList("01/01/2018");
+        System.out.println("\nafter clear : "+tripleList2);
         
     }
 }

@@ -69,12 +69,8 @@ public class Agenda2 extends Canvas{
     }
     
     
-/*      map.put(20180101,new ArrayList<Triple>());
-    	map.get(20180101).add(new Triple("08h00", "04h00", "Reunion"));
-    	map.get(20180101).add(new Triple("12h00", "02h00", "Repas"));
-    	map.put(20180102,new ArrayList<Triple>());
-    	map.get(20180102).add(new Triple("14h00", "04h00", "Reunion2"));*/
     
+    //OK
     public void addEvent(String date, Triple info) {    //addEvent
         //int temp = transform(date);
         //this.calendar.put(transform(date), info);
@@ -86,7 +82,7 @@ public class Agenda2 extends Canvas{
         this.calendar.get(key).add(info);
     }
     
-   
+    //OK
     public void addEvent(Evenement event)
     {
         String date = event.getDate();
@@ -169,10 +165,10 @@ public class Agenda2 extends Canvas{
         return calendar;
     }
     
+    //  OK
     public void clearCalendar()
     {
-        HashMap<Integer, List<Triple>> map = new HashMap();
-        this.calendar = map;
+        this.calendar.clear();
     }
      
     public String ToString()
